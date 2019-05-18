@@ -20,28 +20,42 @@
 <script>
     import NewMeetingForm from "./NewMeetingForm";
     import MeetingsList from "./MeetingsList";
-
     export default {
         components: {NewMeetingForm, MeetingsList},
         props: ['username'],
         data() {
             return {
-                meetings: []
+                meetings: [],
+                meetingslist: []
             };
         },
+     mounted(){
+            this.getMeetings();
+           
+        
+        },
+        
         methods: {
-            addNewMeeting(meeting) {
-                this.meetings.push(meeting);
+        	getMeetings(){
+        	this.$http.get('meetings')
+                     .then(response => {
+                         this.meetings = response.body;
+                         
+                     });
+        	
+        	},
+        	
+           addNewMeeting(meeting) {
+                this.$http.post('meetings', meeting)
+                .then(response => this.meetings.push(response.body));
+                    
             },
-            addMeetingParticipant(meeting) {
-                meeting.participants.push(this.username);
-            },
-            removeMeetingParticipant(meeting) {
-                meeting.participants.splice(meeting.participants.indexOf(this.username), 1);
-            },
+           
             deleteMeeting(meeting) {
+                this.$http.delete('meetings/'+ meeting.id);
                 this.meetings.splice(this.meetings.indexOf(meeting), 1);
+            },
             }
         }
-    }
+    
 </script>
