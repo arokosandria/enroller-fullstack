@@ -48,12 +48,14 @@
            addNewMeeting(meeting) {
                 this.$http.post('meetings', meeting)
                 .then(response => this.meetings.push(response.body));
+                this.getMeetings();
                  
             },
            
             deleteMeeting(meeting) {
                 this.$http.delete('meetings/'+ meeting.id);
                 this.meetings.splice(this.meetings.indexOf(meeting), 1);
+                this.getMeetings();
             },
                      addMeetingParticipant(meeting) {
                   
