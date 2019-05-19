@@ -12,17 +12,16 @@
     <tr v-for="meeting in meetings" :key="meeting.id">
       <td>{{ meeting.title }}</td>
       <td>{{ meeting.description }}</td>
-      
       <td>
         <ul v-if="meeting.participants">
-          <li v-for="participant in meeting.participants" :key="participant.login">
+          <li v-for="participant in meeting.participants" :key="participant">
             {{ participant.login }}
           </li>
         </ul>
       </td>
       <td style="text-align: right; min-width: 400px"><!--<button v-if="meeting.participants.indexOf(username) < 0" class="button-outline"-->
-     <button v-if="meeting.participants.find(l => l.login === username) == null" class="button-outline"
-@click="$emit('attend', meeting)">
+         <button v-if="meeting.participants.indexOf(username) < 0" class="button-outline"
+    @click="$emit('attend', meeting)">
           Zapisz się
         </button>
         <button v-else class="button-outline" @click="$emit('unattend', meeting)">Wypisz się</button>

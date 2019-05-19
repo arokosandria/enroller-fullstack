@@ -26,13 +26,14 @@
         data() {
             return {
                 meetings: [],
-                
+                meetingslist: []
             };
         },
-      mounted(){
+     mounted(){
             this.getMeetings();
            
-           },
+        
+        },
         
         methods: {
         	getMeetings(){
@@ -41,41 +42,20 @@
                          this.meetings = response.body;
                          
                      });
-                     
         	
         	},
         	
            addNewMeeting(meeting) {
                 this.$http.post('meetings', meeting)
                 .then(response => this.meetings.push(response.body));
-                this.getMeetings();
-                 
+                    
             },
            
             deleteMeeting(meeting) {
                 this.$http.delete('meetings/'+ meeting.id);
                 this.meetings.splice(this.meetings.indexOf(meeting), 1);
-                this.getMeetings();
             },
-                     addMeetingParticipant(meeting) {
-                  
-                this.$http.post('meetings/'+ meeting.id +'/participants', {login:this.username})
-               
-                    .then(response => meeting.participants.push(response.body));
-                     this.getMeetings();
-                    
-            },
-            removeMeetingParticipant(meeting) {
-                this.$http.delete('meetings/'+ meeting.id + '/participants/' + this.username)
-                    .then(() => meeting.participants.splice(meeting.participants.indexOf(this.username), 1));
-                     this.getMeetings();
-            },
-            
-               
-            },
-            
-        
             }
-    
+        }
     
 </script>
